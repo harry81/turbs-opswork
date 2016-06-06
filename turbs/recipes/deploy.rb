@@ -1,13 +1,13 @@
-bash "fetch hoodpub" do
+bash "fetch turbs" do
   user "deploy"
-  cwd node.hoodpub.src_path
+  cwd node.turbs.src_path
 
   code <<-BASH
-  if [ ! -d hoodpub ]; then
-    git clone #{node.hoodpub.src_git_url}
-    cd hoodpub
+  if [ ! -d turbs ]; then
+    git clone #{node.turbs.src_git_url}
+    cd turbs
   else
-    cd hoodpub
+    cd turbs
     git fetch -p
     git reset --hard origin/master
   fi
@@ -17,25 +17,25 @@ end
 
 bash "pip install package" do
   user "deploy"
-  cwd node.hoodpub.deploy_path
+  cwd node.turbs.deploy_path
   code <<-BASH
   export HOME=/home/deploy
-  if [ ! -d .venv-hoodpub ]; then
-    virtualenv .venv-hoodpub
+  if [ ! -d .venv-turbs ]; then
+    virtualenv .venv-turbs
   fi
-  source .venv-hoodpub/bin/activate
-  pip install -r src/hoodpub/web/requirements.txt
+  source .venv-turbs/bin/activate
+  pip install -r src/turbs/web/requirements.txt
   BASH
   action :run
 end
 
 bash "migrate" do
   user "deploy"
-  cwd node.hoodpub.deploy_path
+  cwd node.turbs.deploy_path
   code <<-BASH
   export HOME=/home/deploy
-  source .venv-hoodpub/bin/activate
-  cd src/hoodpub/web
+  source .venv-turbs/bin/activate
+  cd src/turbs/web
   python manage.py collectstatic --noinput
   python manage.py migrate
   BASH
@@ -44,14 +44,14 @@ end
 
 bash "run uwsgi" do
   user "deploy"
-  cwd node.hoodpub.deploy_path
+  cwd node.turbs.deploy_path
   code <<-BASH
   export HOME=/home/deploy
-  source .venv-hoodpub/bin/activate
-  cd src/hoodpub/web
+  source .venv-turbs/bin/activate
+  cd src/turbs/web
   kill -9 $(pidof uwsgi)
 
-  uwsgi --ini uwsgi-hoodpub.ini
+  uwsgi --ini uwsgi-turbs.ini
   BASH
   action :run
 end

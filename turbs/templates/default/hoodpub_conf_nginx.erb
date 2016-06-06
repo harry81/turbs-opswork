@@ -1,34 +1,23 @@
-upstream django-hoodpub {
-    server unix:/tmp/uwsgi-hoodpub.sock;
+upstream django-turbs {
+    server unix:/tmp/uwsgi-turbs.sock;
 }
 
 server {
     listen      80;
-    server_name .hoodpub.com;
+    server_name .turbs.com;
     return  301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl;
-    client_max_body_size 20M;
-    root /home/deploy/src/hoodpub/web;
-    charset     utf-8;
-
-    ssl on;
-    ssl_certificate /home/deploy/ssl/ssl_2016/hoodpub.com.pem;
-    ssl_certificate_key /home/deploy/ssl/ssl_2016/hoodpub.com.key;
 
     location /media  {
-        alias /home/deploy/src/hoodpub/web/media/;
+        alias /home/deploy/src/turbs/web/media/;
     }
 
     location /static {
         autoindex on;
-        alias /home/deploy/src/hoodpub/web/static/;
+        alias /home/deploy/src/turbs/web/static/;
     }
 
     location / {
-        uwsgi_pass  django-hoodpub;
+        uwsgi_pass  django-turbs;
         include /etc/nginx/uwsgi_params;
     }
 }
