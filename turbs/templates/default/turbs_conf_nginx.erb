@@ -4,16 +4,14 @@ upstream django-turbs {
 
 server {
     listen      80;
-    server_name .turbs.com;
-    return  301 https://$server_name$request_uri;
 
     location /media  {
-        alias /home/deploy/src/turbs/web/media/;
+        alias /home/deploy/src/turbs-backend/media/;
     }
 
     location /static {
         autoindex on;
-        alias /home/deploy/src/turbs/web/static/;
+        alias /home/deploy/src/turbs-backend/static/;
     }
 
     location / {

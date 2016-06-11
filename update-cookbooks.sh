@@ -14,10 +14,10 @@ rm  /tmp/cookbooks-temp.tar.gz
 
 echo 'Creating tar file.'
 cd cookbooks
-tar -czf  ../../trubs-cookbooks.tar.gz *
+tar -czf  ../../turbs-cookbooks.tar.gz *
 cd ..
 rm -rf cookbooks
 
 echo 'Moving to S3'
-aws s3 cp /tmp/trubs-cookbooks.tar.gz s3://hm-cookbooks/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --profile turbs
+aws s3 cp /tmp/turbs-cookbooks.tar.gz s3://hm-cookbooks/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --profile turbs
 popd
